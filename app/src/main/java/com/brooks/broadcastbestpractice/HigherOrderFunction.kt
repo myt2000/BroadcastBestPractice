@@ -1,7 +1,7 @@
 package com.brooks.broadcastbestpractice
 
 //class HigherOrderFunction {
-    fun num1AndNum2(num1: Int, num2: Int, operation:(Int, Int) -> Int): Int{
+    inline fun num1AndNum2(num1: Int, num2: Int, operation:(Int, Int) -> Int): Int{
         val result = operation(num1, num2)
         return result
     }
@@ -14,14 +14,58 @@ package com.brooks.broadcastbestpractice
         return num1 - num2
     }
 
-    fun main() {
-        val num1 =100
-        val num2 = 80
-        val result1 = num1AndNum2(num1, num2, ::plus)
-        val result2 = num1AndNum2(num1, num2, ::minus)
-        println("result is $result1")
-        println("result is $result2")
+//    fun main() {
+//        val num1 =100
+//        val num2 = 80
+//        val result1 = num1AndNum2(num1, num2) {n1, n2 -> n1 + n2}
+//        val result2 = num1AndNum2(num1, num2) {n1, n2 -> n1 - n2}
+//        println("result is $result1")
+//        println("result is $result2")
+//    }
+
+    fun StringBuilder.build(block: StringBuilder.() -> Unit):StringBuilder {
+        block()
+        return this
     }
+
+//inline fun InlineTest(block1: ()-> Unit, noinline block2: ()->Unit){}
+
+
+//inline fun printString(str: String, block: (String) -> Unit){
+//        println("printString begin")
+//        block(str)
+//        println("printString end")
+//    }
+//
+//    fun main() {
+//        println("main start")
+//        val str = ""
+//        printString(str) {
+//            s ->
+//            println("Lambda start")
+//            if (s.isEmpty()) return
+//            println(s)
+//            println("Lambda end")
+//        }
+//        println("main end")
+//    }
+inline fun runRunnable(crossinline block: ()-> Unit) {
+    val runnable = Runnable{
+        block()
+    }
+    runnable.run()
+}
+
+//fun main(){
+//    val list = listOf("Apple", "Banana", "Orange", "Pear", "Grape")
+//    val result = StringBuilder().build { append("Start eating fruits.\n")
+//    for (fruit in list){
+//        append(fruit).append("\n")
+//    }
+//        append("All all fruits")
+//    }
+//    println(result.toString())
+//}
 //}
 
 //val test = HigherOrderFunction().main()
